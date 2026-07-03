@@ -1,1 +1,1 @@
-# Techathon2026--Novus-
+# Techathon2026-Novus
