@@ -6,13 +6,11 @@ The boss wants to see every light and fan in the office on a **live web dashboar
 
 ---
 
-## 1. Problem Understanding
+## 1. Problem
 
 A small office runs everything on Discord, and people keep leaving lights and fans on after they go home. The bill climbs and nobody notices in time. The boss wants continuous visibility into the office's electrical state through two interfaces that must always agree with each other.
 
 **The office layout is fixed:** 3 rooms — *Drawing Room*, *Work Room 1*, *Work Room 2* — each with **2 fans + 3 lights** (5 devices per room).
-
-> **A note on device count.** The prose in a couple of places in the problem PDF says *"18 devices,"* but its own math is `3 rooms × (2 fans + 3 lights) = 15`, and the office-layout figure summarizes **6 fans + 9 lights = 15**. The "18" is an inconsistency in the brief. This implementation uses the internally consistent, layout-accurate value of **15 devices (6 fans + 9 lights)** throughout, as confirmed with the team.
 
 Each device tracks: **status** (on/off), **power draw** (realistic watts when on — fan 60 W, light 15 W), **room**, and **last-changed timestamp**. The data is **simulated and dynamic** — it changes over time so the dashboard always has something live to show.
 
