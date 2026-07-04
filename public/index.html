@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Office Power Monitor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="scanline" aria-hidden="true"></div>
+
+  <header class="topbar">
+    <div class="brand">
+      <span class="bolt" aria-hidden="true">⚡</span>
+      <div>
+        <h1>Office Power Monitor</h1>
+        <p class="sub">Live device &amp; consumption board</p>
+      </div>
+    </div>
+    <div class="top-readout">
+      <div class="clock" id="clock">--:--:--</div>
+      <div class="conn" id="conn"><span class="dot"></span><span id="connText">connecting…</span></div>
+    </div>
+  </header>
+
+  <main class="grid">
+    <!-- Signature: live top-view floor plan -->
+    <section class="card floorplan-card" aria-label="Office floor plan">
+      <div class="card-head">
+        <h2>Floor plan</h2>
+        <span class="eyebrow">top view · live</span>
+      </div>
+      <div class="floor-wrap">
+        <svg id="floor" viewBox="0 0 900 420" role="img" aria-label="Top-view office layout with live device states"></svg>
+      </div>
+    </section>
+
+    <!-- Live power meter -->
+    <section class="card meter-card" aria-label="Power consumption">
+      <div class="card-head">
+        <h2>Power draw</h2>
+        <span class="eyebrow">watts · now</span>
+      </div>
+      <div class="total-power">
+        <span class="value" id="totalW">0</span><span class="unit">W</span>
+      </div>
+      <div class="today" id="todayKwh">0.000 kWh today</div>
+      <div class="room-bars" id="roomBars"></div>
+    </section>
+
+    <!-- Active alerts -->
+    <section class="card alerts-card" aria-label="Active alerts">
+      <div class="card-head">
+        <h2>Alerts</h2>
+        <span class="eyebrow" id="alertCount">0 active</span>
+      </div>
+      <ul class="alert-list" id="alertList">
+        <li class="alert-empty">All clear — nothing anomalous.</li>
+      </ul>
+    </section>
+
+    <!-- Device status panel -->
+    <section class="card devices-card" aria-label="Device status by room">
+      <div class="card-head">
+        <h2>Devices</h2>
+        <span class="eyebrow" id="devSummary">0 / 15 on</span>
+      </div>
+      <div class="rooms" id="rooms"></div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <span>15 devices · 3 rooms · one shared backend</span>
+    <span id="lastUpdate">—</span>
+  </footer>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

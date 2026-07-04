@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 720" width="1040" height="720" font-family="Segoe UI, Inter, sans-serif">
+  <rect x="0" y="0" width="1040" height="720" fill="#0d121d"/>
+  <text x="520" y="38" text-anchor="middle" fill="#e9eefb" font-size="22" font-weight="700">Representative Circuit — One Room (Work Room 1)</text>
+  <text x="520" y="60" text-anchor="middle" fill="#8493ad" font-size="13">ESP32 senses ON/OFF of 5 devices (opto-isolated) + total current (ACS712). Concept for Wokwi/Tinkercad.</text>
+
+  <!-- MAINS bus -->
+  <text x="60" y="110" fill="#ff5c5c" font-size="13" font-weight="700">230 V AC MAINS (Live / Neutral)</text>
+  <line x1="60" y1="120" x2="980" y2="120" stroke="#ff5c5c" stroke-width="3"/>
+  <text x="60" y="146" fill="#8493ad" font-size="11">L</text>
+  <line x1="60" y1="150" x2="980" y2="150" stroke="#7a8aa6" stroke-width="2"/>
+  <text x="60" y="168" fill="#8493ad" font-size="11">N</text>
+
+  <!-- ACS712 on the live feed -->
+  <rect x="120" y="185" width="150" height="70" rx="8" fill="#151f30" stroke="#ff9e40"/>
+  <text x="195" y="210" text-anchor="middle" fill="#ff9e40" font-size="12" font-weight="700">ACS712-20A</text>
+  <text x="195" y="230" text-anchor="middle" fill="#8493ad" font-size="10">hall current sensor</text>
+  <text x="195" y="245" text-anchor="middle" fill="#8493ad" font-size="10">in series with L</text>
+  <line x1="150" y1="120" x2="150" y2="185" stroke="#ff5c5c" stroke-width="2"/>
+  <line x1="240" y1="185" x2="240" y2="120" stroke="#ff5c5c" stroke-width="2"/>
+
+  <!-- 5 device sense blocks -->
+  <g>
+    <!-- template positions -->
+    <!-- Fan1 -->
+    <rect x="330" y="190" width="120" height="64" rx="8" fill="#151f30" stroke="#38c1b4"/>
+    <text x="390" y="212" text-anchor="middle" fill="#38c1b4" font-size="11" font-weight="700">Fan 1</text>
+    <text x="390" y="228" text-anchor="middle" fill="#8493ad" font-size="9">opto sense (H11AA1)</text>
+    <text x="390" y="242" text-anchor="middle" fill="#8493ad" font-size="9">+ 60 W fan load</text>
+    <line x1="360" y1="150" x2="360" y2="190" stroke="#7a8aa6" stroke-width="1.5"/>
+    <line x1="420" y1="120" x2="420" y2="190" stroke="#ff5c5c" stroke-width="1.5"/>
+
+    <!-- Fan2 -->
+    <rect x="330" y="290" width="120" height="64" rx="8" fill="#151f30" stroke="#38c1b4"/>
+    <text x="390" y="312" text-anchor="middle" fill="#38c1b4" font-size="11" font-weight="700">Fan 2</text>
+    <text x="390" y="328" text-anchor="middle" fill="#8493ad" font-size="9">opto sense (H11AA1)</text>
+    <text x="390" y="342" text-anchor="middle" fill="#8493ad" font-size="9">+ 60 W fan load</text>
+
+    <!-- Light1 -->
+    <rect x="330" y="390" width="120" height="64" rx="8" fill="#151f30" stroke="#ffd05b"/>
+    <text x="390" y="412" text-anchor="middle" fill="#ffd05b" font-size="11" font-weight="700">Light 1</text>
+    <text x="390" y="428" text-anchor="middle" fill="#8493ad" font-size="9">opto sense (H11AA1)</text>
+    <text x="390" y="442" text-anchor="middle" fill="#8493ad" font-size="9">+ 15 W lamp load</text>
+
+    <!-- Light2 -->
+    <rect x="330" y="490" width="120" height="64" rx="8" fill="#151f30" stroke="#ffd05b"/>
+    <text x="390" y="512" text-anchor="middle" fill="#ffd05b" font-size="11" font-weight="700">Light 2</text>
+    <text x="390" y="528" text-anchor="middle" fill="#8493ad" font-size="9">opto sense (H11AA1)</text>
+    <text x="390" y="542" text-anchor="middle" fill="#8493ad" font-size="9">+ 15 W lamp load</text>
+
+    <!-- Light3 -->
+    <rect x="330" y="590" width="120" height="64" rx="8" fill="#151f30" stroke="#ffd05b"/>
+    <text x="390" y="612" text-anchor="middle" fill="#ffd05b" font-size="11" font-weight="700">Light 3</text>
+    <text x="390" y="628" text-anchor="middle" fill="#8493ad" font-size="9">opto sense (H11AA1)</text>
+    <text x="390" y="642" text-anchor="middle" fill="#8493ad" font-size="9">+ 15 W lamp load</text>
+  </g>
+
+  <!-- ESP32 -->
+  <rect x="640" y="230" width="230" height="360" rx="12" fill="#141a26" stroke="#26344f" stroke-width="2"/>
+  <text x="755" y="258" text-anchor="middle" fill="#e9eefb" font-size="15" font-weight="700">ESP32 DevKit</text>
+  <text x="755" y="278" text-anchor="middle" fill="#8493ad" font-size="10">3.3 V logic · Wi-Fi</text>
+  <!-- GPIO pins -->
+  <g font-size="11" fill="#e9eefb">
+    <text x="660" y="308">GPIO32  ← Fan 1 sense</text>
+    <text x="660" y="338">GPIO33  ← Fan 2 sense</text>
+    <text x="660" y="368">GPIO25  ← Light 1 sense</text>
+    <text x="660" y="398">GPIO26  ← Light 2 sense</text>
+    <text x="660" y="428">GPIO27  ← Light 3 sense</text>
+    <text x="660" y="462" fill="#ff9e40">GPIO35  ← ACS712 OUT (via divider)</text>
+    <text x="660" y="500" fill="#8493ad">3V3 → opto pull-ups</text>
+    <text x="660" y="524" fill="#8493ad">GND → common ground</text>
+  </g>
+  <rect x="660" y="545" width="190" height="34" rx="6" fill="#101826" stroke="#38c1b4"/>
+  <text x="755" y="567" text-anchor="middle" fill="#38c1b4" font-size="11">Wi-Fi → POST /api/ingest (JSON)</text>
+
+  <!-- sense wires to ESP32 -->
+  <line x1="450" y1="222" x2="640" y2="304" stroke="#38c1b4" stroke-width="1.4"/>
+  <line x1="450" y1="322" x2="640" y2="334" stroke="#38c1b4" stroke-width="1.4"/>
+  <line x1="450" y1="422" x2="640" y2="364" stroke="#ffd05b" stroke-width="1.4"/>
+  <line x1="450" y1="522" x2="640" y2="394" stroke="#ffd05b" stroke-width="1.4"/>
+  <line x1="450" y1="622" x2="640" y2="424" stroke="#ffd05b" stroke-width="1.4"/>
+
+  <!-- ACS712 -> divider -> ADC -->
+  <rect x="480" y="185" width="90" height="46" rx="6" fill="#151f30" stroke="#ff9e40"/>
+  <text x="525" y="205" text-anchor="middle" fill="#ff9e40" font-size="10">R-divider</text>
+  <text x="525" y="220" text-anchor="middle" fill="#8493ad" font-size="9">5V→3.3V</text>
+  <line x1="270" y1="215" x2="480" y2="208" stroke="#ff9e40" stroke-width="1.4"/>
+  <line x1="570" y1="208" x2="640" y2="458" stroke="#ff9e40" stroke-width="1.4"/>
+
+  <!-- backend -->
+  <rect x="900" y="380" width="110" height="70" rx="10" fill="#141b12" stroke="#3a4a2c"/>
+  <text x="955" y="410" text-anchor="middle" fill="#a7d06a" font-size="11" font-weight="700">Backend</text>
+  <text x="955" y="428" text-anchor="middle" fill="#8493ad" font-size="9">store / API</text>
+  <line x1="850" y1="562" x2="955" y2="450" stroke="#38c1b4" stroke-width="1.4" stroke-dasharray="4 3"/>
+
+  <text x="60" y="695" fill="#5a6a86" font-size="11">Isolation note: every device state is read through an opto-isolator — mains never touches the ESP32. ACS712 is galvanically isolated by design.</text>
+</svg>

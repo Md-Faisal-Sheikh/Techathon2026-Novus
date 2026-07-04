@@ -1,0 +1,33 @@
+{
+  "name": "office-power-monitor",
+  "version": "1.0.0",
+  "description": "Live web dashboard + Discord bot monitoring an office's 15 lights & fans from one shared backend.",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "server": "node src/server.js",
+    "bot": "node src/bot.js",
+    "dev": "concurrently -n server,bot -c cyan,magenta \"npm run server\" \"npm run bot\"",
+    "test": "node --test"
+  },
+  "keywords": [
+    "iot",
+    "dashboard",
+    "discord-bot",
+    "energy",
+    "monitoring",
+    "hackathon"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "discord.js": "^14.26.4",
+    "express": "^4.22.2",
+    "socket.io": "^4.8.3"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
