@@ -12,8 +12,9 @@ Files:
 - `room1-schematic.svg` — the circuit diagram
 - `room_firmware.ino` — ESP32 sketch (reads states, measures current, POSTs JSON)
 
-> Build it yourself in Wokwi or Tinkercad from the pin map and connection list
-> below. Wokwi is recommended for the ESP32 + Wi-Fi flow.
+**Live Wokwi simulation:** <https://wokwi.com/projects/468535700098509825>
+
+> The Wokwi project above is built from the pin map and connection list below.
 
 ---
 

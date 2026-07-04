@@ -73,7 +73,8 @@ button.primary{background:var(--app-accent);border-color:var(--app-accent);color
 .hint{color:var(--app-text-secondary);font-size:12px;margin-top:14px;text-align:center}
 
 /* ---------- Dashboard: tiles · hero plan · room cards ---------- */
-.tiles{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:14px}
+.tiles{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin-bottom:14px}
+@media(max-width:1100px){ .tiles{grid-template-columns:repeat(3,1fr)} }
 @media(max-width:820px){ .tiles{grid-template-columns:repeat(2,1fr)} }
 .tile{background:var(--app-surface);border:1px solid var(--app-border);border-radius:14px;padding:12px 14px}
 .tile .k{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--app-text-secondary)}
@@ -135,6 +136,7 @@ button.primary{background:var(--app-accent);border-color:var(--app-accent);color
 .pm-head h2{margin:0;font-size:15px;letter-spacing:.5px;color:var(--app-text)}
 .pm-total{font-size:22px;font-weight:700;color:var(--app-accent);white-space:nowrap}
 .pm-total small{font-size:12px;color:var(--app-text-secondary);font-weight:500}
+.pm-cost{font-size:16px;font-weight:700;color:var(--app-accent);margin-top:2px}
 .pm-today{font-size:12px;color:var(--app-text-secondary);margin:2px 0 16px}
 
 .pm-rooms{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}

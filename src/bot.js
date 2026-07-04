@@ -55,7 +55,7 @@ const commands = {
       '**Office Power Monitor — commands**',
       `\`${P}status\` — quick on/off summary for every room`,
       `\`${P}room <name>\` — one room in detail (work1 / work2 / drawing)`,
-      `\`${P}usage\` — total watts now + today's kWh`,
+      `\`${P}usage\` — cost right now (৳/hour) + today's bill so far`,
       `\`${P}alerts\` — anything anomalous right now`,
     ].join('\n');
   },

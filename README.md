@@ -14,6 +14,8 @@ A small office runs everything on Discord, and people keep leaving lights and fa
 
 Each device tracks: **status** (on/off), **power draw** (realistic watts when on — fan 60 W, light 15 W), **room**, and **last-changed timestamp**. The data is **simulated and dynamic** — it changes over time so the dashboard always has something live to show.
 
+The boss doesn't think in watts — he thinks in taka. Every power figure the system reports is paired with a **BDT cost** at a configurable tariff (`TARIFF_BDT_PER_KWH`, default ৳10/kWh), so the headline number everywhere is "Burning ৳12/hour right now," not just "720 W."
+
 ---
 
 ## 2. Solution Approach & Architecture
@@ -95,6 +97,7 @@ Key settings:
 | `PORT` | `3000` | Backend HTTP + Socket.IO port |
 | `SIM_INTERVAL_MS` | `3000` | How often the simulator mutates device state |
 | `FAN_WATTS` / `LIGHT_WATTS` | `60` / `15` | Per-device power draw when on |
+| `TARIFF_BDT_PER_KWH` | `10` | Electricity rate (BDT/kWh) used to convert watts into a taka cost |
 | `OFFICE_OPEN_HOUR` / `OFFICE_CLOSE_HOUR` | `9` / `17` | Office hours (24h clock) for alerts |
 | `ROOM_ON_HOURS_THRESHOLD` | `2` | Hours a whole room can be on before it's flagged |
 | `FORCE_AFTER_HOURS` | `false` | Force "after hours" so that alert always shows in a demo |
@@ -132,6 +135,10 @@ npm run dev
 
 This launches the server and the bot side-by-side with colour-coded output.
 
+### Alternate dashboard (React)
+
+There's a second, bonus dashboard in [`frontend/`](frontend/) — a React + Vite rebuild of the same live view, wired to the identical backend over Socket.IO/REST. With the backend running (`npm start`), see [`frontend/README.md`](frontend/README.md) for its own install/run steps (`cd frontend && npm install && npm run dev`).
+
 ### Tests
 
 ```bash
@@ -159,7 +166,7 @@ All endpoints are served by `src/server.js`. The bot uses these same endpoints, 
 | `GET` | `/api/state` | Full snapshot: devices, rooms, power, alerts |
 | `GET` | `/api/devices` | All 15 devices with status/power/room/lastChanged |
 | `GET` | `/api/rooms/:name` | One room (`work1`, `work2`, `drawing`, and aliases) |
-| `GET` | `/api/power` | Total watts now + per-room breakdown + today's kWh |
+| `GET` | `/api/power` | Total watts + BDT cost now, per-room breakdown, today's kWh + cost |
 | `GET` | `/api/alerts` | Current active alerts (timestamped) |
 | `POST` | `/api/devices/:id/set` | Demo control — set one device on/off (`{ "on": true }`) |
 | `POST` | `/api/rooms/:name/set` | Demo control — set a whole room on/off (`{ "on": true }`) |
@@ -180,7 +187,7 @@ The bot pulls **real answers from live simulated data** — nothing is hardcoded
 | --- | --- |
 | `!status` | Quick on/off summary for every room |
 | `!room <name>` | One room in detail (e.g. `!room work1`) |
-| `!usage` | Total watts right now + today's estimated kWh |
+| `!usage` | BDT cost right now (৳/hour) + today's bill so far |
 | `!alerts` | Anything anomalous right now |
 | `!help` | Lists the commands |
 
@@ -204,6 +211,7 @@ This separation (facts from code, phrasing from the model) is intentional: it gi
 
 This is a **concept/simulation only** — no physical hardware is required for the demo — but the design is electrically sound and documented in [`hardware/`](hardware/):
 
+- **Live Wokwi simulation:** <https://wokwi.com/projects/468535700098509825>
 - [`hardware/README.md`](hardware/README.md) — pin-mapping table, connection list, and electrical reasoning (opto-isolated state sensing + current sensing).
 - [`hardware/room1-schematic.svg`](hardware/room1-schematic.svg) — a representative one-room circuit: an **ESP32** senses the on/off state of all 5 devices via **H11AA1 opto-isolators**, measures room current with an **ACS712** hall-effect sensor, and POSTs readings to the backend over WiFi.
 - [`hardware/room_firmware.ino`](hardware/room_firmware.ino) — a matching ESP32 Arduino sketch (concept).
@@ -252,6 +260,7 @@ office-power-monitor/
 | Web dashboard (live, no refresh) | `public/` — floor plan, power meter, alerts |
 | Discord bot (shared backend) | `src/bot.js` — `!status` `!room` `!usage` `!alerts` |
 | Live power meter + per-room breakdown | `GET /api/power`, dashboard power card |
+| BDT cost, not just watts | `store.getPower()`/`getRoom()` cost fields, `TARIFF_BDT_PER_KWH` |
 | Active alerts (after-hours, room-on-too-long) | `store.getAlerts()`, alerts panel + bot |
 | One shared backend / single source of truth | `src/store.js` singleton, read by both interfaces |
 | Friendly / LLM responses | `src/llm.js` |

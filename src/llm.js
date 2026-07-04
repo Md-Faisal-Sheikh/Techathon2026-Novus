@@ -27,7 +27,10 @@ async function viaLLM(kind, data) {
     'You are the friendly facilities assistant for a small office. Rephrase the ' +
     'given JSON facts as one short, warm, human message (1-3 sentences). Never ' +
     'invent numbers or device states — only use what is in the data. No markdown ' +
-    'tables, no bullet dumps. Keep it light; the boss hates robotic data dumps.';
+    'tables, no bullet dumps. Keep it light; the boss hates robotic data dumps. ' +
+    'The boss cares about the BDT cost of electricity, not raw watts — if the ' +
+    'data includes costPerHourBdt or todayCostBdt, lead with the taka figure ' +
+    '(e.g. "Burning ৳12/hour right now") and mention watts only as a side detail.';
 
   const res = await fetch(`${config.OPENAI_BASE_URL}/chat/completions`, {
     method: 'POST',
@@ -84,14 +87,14 @@ function roomTemplate(r) {
   if (on === 0) return `${r.name} is all switched off — nothing drawing power there. 👍`;
   return (
     `In ${r.name}: ${r.fansOn} of 2 fans and ${r.lightsOn} of 3 lights are on, ` +
-    `pulling about ${r.power}W right now.`
+    `costing about ৳${r.costPerHourBdt}/hour (${r.power}W) right now.`
   );
 }
 
 function usageTemplate(p) {
   return (
-    `Right now the office is drawing ${p.totalWatts}W. ` +
-    `So far today that's roughly ${p.todayKwh} kWh. ` +
+    `Burning ৳${p.costPerHourBdt}/hour right now (${p.totalWatts}W). ` +
+    `Today's bill so far: ৳${p.todayCostBdt} (${p.todayKwh} kWh). ` +
     (p.totalWatts > 300 ? 'Bit heavy — worth a glance. ⚡' : 'Nice and easy. 🌿')
   );
 }

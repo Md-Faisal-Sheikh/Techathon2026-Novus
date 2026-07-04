@@ -11,7 +11,6 @@ import UsagePanel from './components/UsagePanel';
 import PowerMeter from './components/PowerMeter';
 import AlertsPanel from './components/AlertsPanel';
 
-
 const warn = (e) => console.warn('[backend] command failed: ', e);
 
 
@@ -39,6 +38,7 @@ export default function App() {
   const fansOn = fans.filter((f) => on[f.id]).length;
   const lightsOn = lights.filter((l) => on[l.id]).length;
   const power = snapshot?.power?.totalWatts ?? fansOn * FAN_W + lightsOn * LIGHT_W;
+  const costPerHourBdt = snapshot?.power?.costPerHourBdt;
 
   return (
     <div className="wrap">
@@ -56,6 +56,7 @@ export default function App() {
         lightsOn={lightsOn}
         totalLights={lights.length}
         power={power}
+        costPerHourBdt={costPerHourBdt}
       />
 
       <AlertsPanel alerts={snapshot?.alerts} officeHours={snapshot?.officeHours} />

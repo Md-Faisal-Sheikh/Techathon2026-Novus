@@ -9,6 +9,7 @@ process.env.LIGHT_WATTS = '15';
 process.env.OFFICE_OPEN_HOUR = '9';
 process.env.OFFICE_CLOSE_HOUR = '17';
 process.env.ROOM_ON_HOURS_THRESHOLD = '2';
+process.env.TARIFF_BDT_PER_KWH = '10';
 
 const { OfficeStore } = require('../src/store');
 
@@ -89,4 +90,23 @@ test('energy accumulates over time', () => {
   s._lastTick = t0;
   s._accumulateEnergy(t0 + 3_600_000); // +1 hour -> 60 Wh
   assert.ok(Math.abs(s.getPower().todayKwh - 0.06) < 1e-6);
+});
+
+test('cost converts watts/kWh into BDT at the configured tariff', () => {
+  const s = new OfficeStore();
+  s.setRoom('drawing', false);
+  s.setRoom('work1', true); // 165W -> 0.165 kW * 10 BDT/kWh = 1.65 BDT/hour
+  s.setRoom('work2', false);
+  const power = s.getPower();
+  assert.strictEqual(power.tariffBdtPerKwh, 10);
+  assert.ok(Math.abs(power.costPerHourBdt - 1.65) < 1e-6);
+
+  const room = s.getRoom('work1');
+  assert.ok(Math.abs(room.costPerHourBdt - 1.65) < 1e-6);
+
+  const t0 = Date.now();
+  s._lastTick = t0;
+  s._accumulateEnergy(t0 + 3_600_000); // +1 hour at 165W -> 0.165 kWh
+  const after = s.getPower();
+  assert.ok(Math.abs(after.todayCostBdt - 1.65) < 1e-3);
 });
