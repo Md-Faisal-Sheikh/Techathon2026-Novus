@@ -8,6 +8,8 @@ import KpiTiles from './components/KpiTiles';
 import FloorPlan from './components/FloorPlan';
 import RoomCards from './components/RoomCards';
 import UsagePanel from './components/UsagePanel';
+import PowerMeter from './components/PowerMeter';
+import AlertsPanel from './components/AlertsPanel';
 
 const warn = (e) => console.warn('[backend] command failed:', e);
 
@@ -54,6 +56,8 @@ export default function App() {
         power={power}
       />
 
+      <AlertsPanel alerts={snapshot?.alerts} />
+
       <div className="plan-hero">
         <FloorPlan
           rooms={ROOMS}
@@ -64,6 +68,8 @@ export default function App() {
           register={register}
         />
       </div>
+
+      <PowerMeter power={snapshot?.power} rooms={snapshot?.rooms} />
 
       <RoomCards
         rooms={ROOMS}
