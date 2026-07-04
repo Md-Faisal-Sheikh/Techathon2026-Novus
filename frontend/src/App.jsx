@@ -8,6 +8,7 @@ import FloorPlan from './components/FloorPlan';
 import RoomCards from './components/RoomCards';
 import UsagePanel from './components/UsagePanel';
 
+
 export default function App() {
   const { fans, lights } = useMemo(createDevices, []);
   const allIds = useMemo(() => [...fans, ...lights].map((d) => d.id), [fans, lights]);
