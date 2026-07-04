@@ -11,7 +11,10 @@ import UsagePanel from './components/UsagePanel';
 import PowerMeter from './components/PowerMeter';
 import AlertsPanel from './components/AlertsPanel';
 
-const warn = (e) => console.warn('[backend] command failed:', e);
+
+const warn = (e) => console.warn('[backend] command failed: ', e);
+
+
 
 export default function App() {
   const { fans, lights } = useMemo(createDevices, []);
