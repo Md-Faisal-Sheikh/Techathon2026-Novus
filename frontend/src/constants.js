@@ -6,8 +6,10 @@ export const ROOMS = [
   { id: 'w2',   name: 'WORK ROOM 2',  x0: 432, x1: 618, y0: 22, y1: 372, kind: 'work',   floor: '#ece0c4' },
 ];
 
-export const FAN_W = 55;   // watts per fan
-export const LIGHT_W = 12; // watts per light
+// Mirror the backend's ratings (FAN_WATTS / LIGHT_WATTS in src/config.js) so the
+// per-device and per-room wattages shown here match the backend's live totals.
+export const FAN_W = 60;   // watts per fan
+export const LIGHT_W = 15; // watts per light
 
 // Fan spin targets in degrees/second, per speed setting.
 export const SPEEDS = { low: 95, med: 220, high: 440 };
