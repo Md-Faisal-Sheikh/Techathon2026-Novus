@@ -172,6 +172,8 @@ On connection the server emits a `state` event with the full snapshot, and re-em
 
 ## 7. Discord Bot Commands
 
+Bot url : https://discord.com/oauth2/authorize?client_id=1522828260562698402&permissions=68608&integration_type=0&scope=bot
+
 The bot pulls **real answers from live simulated data** — nothing is hardcoded or random. Responses are phrased in a friendly, conversational tone (the boss hates robotic data dumps).
 
 | Command | What it does |
