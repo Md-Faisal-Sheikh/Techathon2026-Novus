@@ -1,0 +1,20 @@
+{
+  "name": "novus-office",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Novus Office — interactive top-view office control panel (React)",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.4",
+    "vite": "^5.4.10"
+  }
+}
