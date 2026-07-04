@@ -1,5 +1,7 @@
 'use strict';
 
+require('dotenv').config({ path: require('path').join(__dirname, '..', '.env') });
+
 /**
  * Central configuration. Everything tunable lives here and can be overridden
  * with environment variables (see .env.example). Both the API server and the
