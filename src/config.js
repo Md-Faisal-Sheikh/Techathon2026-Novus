@@ -29,7 +29,7 @@ const config = {
   API_BASE_URL: process.env.API_BASE_URL || `http://localhost:${num('PORT', 3000)}`,
 
   // ---- Simulation ----
-  SIM_INTERVAL_MS: num('SIM_INTERVAL_MS', 3000), // how often device states are re-evaluated
+  SIM_INTERVAL_MS: num('SIM_INTERVAL_MS', 10000), // how often device states are re-evaluated
 
   // ---- Device power ratings (Watts when ON) ----
   FAN_WATTS: num('FAN_WATTS', 60),

@@ -1,8 +1,11 @@
 import DeviceControlRow from './DeviceControlRow';
 import DeviceUsageRow from './DeviceUsageRow';
 import { FAN_W, LIGHT_W } from '../constants';
+import { useNow } from '../hooks/useNow';
 
-export default function RoomCards({ rooms, fans, lights, on, onSetDevice, usageMode, onShowUsage }) {
+export default function RoomCards({ rooms, fans, lights, on, lastChanged, onSetDevice, usageMode, onShowUsage }) {
+  const now = useNow(30000); // one shared clock so every "last changed" label stays fresh
+
   if (usageMode) {
     return (
       <>
@@ -74,6 +77,8 @@ export default function RoomCards({ rooms, fans, lights, on, onSetDevice, usageM
                     kind="fan"
                     isOn={on[f.id]}
                     watts={FAN_W}
+                    lastChanged={lastChanged?.[f.id]}
+                    now={now}
                     onSet={(v) => onSetDevice(f.id, v)}
                   />
                 ))}
@@ -84,6 +89,8 @@ export default function RoomCards({ rooms, fans, lights, on, onSetDevice, usageM
                     kind="light"
                     isOn={on[l.id]}
                     watts={LIGHT_W}
+                    lastChanged={lastChanged?.[l.id]}
+                    now={now}
                     onSet={(v) => onSetDevice(l.id, v)}
                   />
                 ))}

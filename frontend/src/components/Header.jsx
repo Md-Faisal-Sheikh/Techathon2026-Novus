@@ -9,7 +9,7 @@ function ConnStatus({ connected, ready }) {
   );
 }
 
-export default function Header({ connected, ready, usageMode, onToggleUsageMode, onShowUsage, onAllOff }) {
+export default function Header({ connected, ready, usageMode, onToggleUsageMode, onAllOff }) {
   return (
     <header>
       <div className="title">
@@ -27,7 +27,6 @@ export default function Header({ connected, ready, usageMode, onToggleUsageMode,
         </button>
       </div>
       <div className="row" style={{ margin: 0 }}>
-        <button onClick={onShowUsage}>Usage</button>
         <button onClick={onAllOff}>All Off</button>
       </div>
     </header>

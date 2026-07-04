@@ -1,3 +1,5 @@
+import { formatAgo } from '../util';
+
 function FanIcon() {
   return (
     <svg viewBox="0 0 24 24" width="16" height="16" fill="none" aria-hidden="true">
@@ -24,12 +26,15 @@ function LightIcon() {
 // One interactive device line: type icon, name, live wattage (— when off),
 // and a single on/off pill. Icon color marks device TYPE (fan vs light) and
 // never changes with state; the pill is the only accent-when-on element here.
-export default function DeviceControlRow({ device, kind, isOn, watts, onSet }) {
+export default function DeviceControlRow({ device, kind, isOn, watts, lastChanged, now, onSet }) {
   return (
     <div className="dc-row">
       <span className={`dc-icon dc-icon-${kind}`}>{kind === 'fan' ? <FanIcon /> : <LightIcon />}</span>
       <span className="dc-name">{device.label}</span>
       <span className="dc-watts">{isOn ? `${watts}W` : '—'}</span>
+      <span className="dc-changed" title="Last changed">
+        {formatAgo(lastChanged, now)}
+      </span>
       <button
         type="button"
         className={`dc-pill${isOn ? ' on' : ''}`}
