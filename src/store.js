@@ -159,14 +159,16 @@ class OfficeStore extends EventEmitter {
     if (!key) return null;
     const meta = ROOMS.find((r) => r.key === key);
     const devices = this.devices.filter((d) => d.roomKey === key);
+    const power = devices.reduce((s, d) => s + d.powerWatts, 0);
     return {
       key,
       name: meta.name,
       devices: devices.map((d) => ({ ...d })),
-      power: devices.reduce((s, d) => s + d.powerWatts, 0),
+      power,
       fansOn: devices.filter((d) => d.type === 'fan' && d.status).length,
       lightsOn: devices.filter((d) => d.type === 'light' && d.status).length,
       energyWh: this.energyWh[key],
+      costPerHourBdt: +((power / 1000) * config.TARIFF_BDT_PER_KWH).toFixed(2),
     };
   }
 
@@ -178,15 +180,21 @@ class OfficeStore extends EventEmitter {
       total += d.powerWatts;
       perRoom[d.roomKey] += d.powerWatts;
     }
+    const rate = config.TARIFF_BDT_PER_KWH;
+    const todayKwh = +(this.energyWh.total / 1000).toFixed(3);
     return {
       totalWatts: total,
       perRoom, // keyed by room key
-      todayKwh: +(this.energyWh.total / 1000).toFixed(3),
+      todayKwh,
       perRoomKwh: {
         drawing: +(this.energyWh.drawing / 1000).toFixed(3),
         work1: +(this.energyWh.work1 / 1000).toFixed(3),
         work2: +(this.energyWh.work2 / 1000).toFixed(3),
       },
+      // Cost, not just watts — the boss cares about the bill.
+      tariffBdtPerKwh: rate,
+      costPerHourBdt: +((total / 1000) * rate).toFixed(2), // at current draw, sustained for 1h
+      todayCostBdt: +(todayKwh * rate).toFixed(2),
     };
   }
 

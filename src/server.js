@@ -1,6 +1,5 @@
 'use strict';
 
-const path = require('path');
 const http = require('http');
 const express = require('express');
 const { Server } = require('socket.io');
@@ -34,8 +33,6 @@ app.use((req, res, next) => {
   if (req.method === 'OPTIONS') return res.sendStatus(204);
   next();
 });
-
-app.use(express.static(path.join(__dirname, '..', 'public')));
 
 // ---- REST API ---------------------------------------------------------------
 
@@ -94,7 +91,7 @@ store.on('update', (snapshot) => io.emit('state', snapshot));
 function start() {
   store.start();
   server.listen(config.PORT, () => {
-    console.log(`[server] backend + dashboard on http://localhost:${config.PORT}`);
+    console.log(`[server] backend on http://localhost:${config.PORT}`);
     console.log(`[server] simulating 15 devices every ${config.SIM_INTERVAL_MS} ms`);
   });
   return server;

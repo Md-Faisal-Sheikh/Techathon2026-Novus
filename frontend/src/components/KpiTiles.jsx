@@ -10,17 +10,19 @@ function Tile({ cls, label, value, unit }) {
   );
 }
 
-export default function KpiTiles({ fansOn, totalFans, lightsOn, totalLights, power }) {
+export default function KpiTiles({ fansOn, totalFans, lightsOn, totalLights, power, costPerHourBdt }) {
   const devicesOn = fansOn + lightsOn;
   const totalDevices = totalFans + totalLights;
   const energy = ((power * 24) / 1000).toFixed(1); // projected kWh/day at current draw
+  const cost = costPerHourBdt != null ? costPerHourBdt.toFixed(2) : '—';
 
   return (
     <div className="tiles">
       <Tile label="Fans On" value={fansOn} unit={`/${totalFans}`} />
       <Tile label="Lights On" value={lightsOn} unit={`/${totalLights}`} />
       <Tile label="Devices On" value={devicesOn} unit={`/${totalDevices}`} />
-      <Tile cls="hero" label="Power Draw (Now)" value={power} unit=" W" />
+      <Tile cls="hero" label="Cost (Now)" value={`৳${cost}`} unit="/hr" />
+      <Tile label="Power Draw" value={power} unit=" W" />
       <Tile label="Est. Use" value={energy} unit=" kWh/day" />
     </div>
   );

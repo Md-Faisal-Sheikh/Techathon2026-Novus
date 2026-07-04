@@ -1,5 +1,7 @@
 'use strict';
 
+require('dotenv').config({ path: require('path').join(__dirname, '..', '.env') });
+
 /**
  * Central configuration. Everything tunable lives here and can be overridden
  * with environment variables (see .env.example). Both the API server and the
@@ -27,11 +29,17 @@ const config = {
   API_BASE_URL: process.env.API_BASE_URL || `http://localhost:${num('PORT', 3000)}`,
 
   // ---- Simulation ----
-  SIM_INTERVAL_MS: num('SIM_INTERVAL_MS', 3000), // how often device states are re-evaluated
+  SIM_INTERVAL_MS: num('SIM_INTERVAL_MS', 10000), // how often device states are re-evaluated
 
   // ---- Device power ratings (Watts when ON) ----
   FAN_WATTS: num('FAN_WATTS', 60),
   LIGHT_WATTS: num('LIGHT_WATTS', 15),
+
+  // ---- Electricity tariff ----
+  // BDT per kWh. Used to convert the raw watt/kWh numbers into a taka figure —
+  // the boss cares about the bill, not the wattage. Default is a representative
+  // Bangladesh commercial-tariff rate; override to match your actual bill.
+  TARIFF_BDT_PER_KWH: num('TARIFF_BDT_PER_KWH', 10),
 
   // ---- Office hours (24h local clock) ----
   OFFICE_OPEN_HOUR: num('OFFICE_OPEN_HOUR', 9),  // 9 AM

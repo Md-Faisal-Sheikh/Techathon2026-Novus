@@ -10,6 +10,7 @@ import { BACKEND_URL, snapshotToMaps, setDeviceById, setRoom, setAll } from '../
  *
  * @returns {{
  *   on: Object,            // { [frontendDeviceId]: boolean } — drives the whole UI
+ *   lastChanged: Object,   // { [frontendDeviceId]: epochMs } — when status last flipped
  *   snapshot: Object|null, // raw backend snapshot (power, alerts, rooms, ...)
  *   connected: boolean,    // is the websocket currently up?
  *   ready: boolean,        // received at least one snapshot?
@@ -32,8 +33,8 @@ export function useBackend() {
     return () => socket.close();
   }, []);
 
-  const { on, ids } = useMemo(
-    () => (snapshot ? snapshotToMaps(snapshot) : { on: {}, ids: {} }),
+  const { on, ids, lastChanged } = useMemo(
+    () => (snapshot ? snapshotToMaps(snapshot) : { on: {}, ids: {}, lastChanged: {} }),
     [snapshot]
   );
   idsRef.current = ids;
@@ -47,5 +48,5 @@ export function useBackend() {
     return setDeviceById(backendId, value);
   }, []);
 
-  return { on, snapshot, connected, ready: snapshot !== null, setDevice, setRoom, setAll };
+  return { on, lastChanged, snapshot, connected, ready: snapshot !== null, setDevice, setRoom, setAll };
 }

@@ -46,15 +46,17 @@ export const FE_ROOM_IDS = Object.keys(ROOM_FE_TO_BE);
 export function snapshotToMaps(snapshot) {
   const on = {};
   const ids = {};
+  const lastChanged = {};
   for (const room of snapshot.rooms || []) {
     for (const dev of room.devices || []) {
       const feId = beDeviceToFeId(dev);
       if (!feId) continue;
       on[feId] = !!dev.status;
       ids[feId] = dev.id;
+      lastChanged[feId] = dev.lastChanged ?? null; // epoch ms, from the backend store
     }
   }
-  return { on, ids };
+  return { on, ids, lastChanged };
 }
 
 // ---- REST controls ---------------------------------------------------------

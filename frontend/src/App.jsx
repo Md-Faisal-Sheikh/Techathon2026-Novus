@@ -8,8 +8,12 @@ import KpiTiles from './components/KpiTiles';
 import FloorPlan from './components/FloorPlan';
 import RoomCards from './components/RoomCards';
 import UsagePanel from './components/UsagePanel';
+import PowerMeter from './components/PowerMeter';
+import AlertsPanel from './components/AlertsPanel';
 
-const warn = (e) => console.warn('[backend] command failed:', e);
+const warn = (e) => console.warn('[backend] command failed: ', e);
+
+
 
 export default function App() {
   const { fans, lights } = useMemo(createDevices, []);
@@ -17,7 +21,7 @@ export default function App() {
   // Live on/off + power now come from the shared backend (Socket.IO). The store
   // there is the single source of truth; this app renders it and sends commands
   // back over REST — it no longer keeps its own device state.
-  const { on, snapshot, connected, ready, setDevice, setAll } = useBackend();
+  const { on, lastChanged, snapshot, connected, ready, setDevice, setAll } = useBackend();
 
   const [speed] = useState('med'); // fixed at medium while the speed control is hidden
   const [showUsage, setShowUsage] = useState(false);
@@ -34,6 +38,7 @@ export default function App() {
   const fansOn = fans.filter((f) => on[f.id]).length;
   const lightsOn = lights.filter((l) => on[l.id]).length;
   const power = snapshot?.power?.totalWatts ?? fansOn * FAN_W + lightsOn * LIGHT_W;
+  const costPerHourBdt = snapshot?.power?.costPerHourBdt;
 
   return (
     <div className="wrap">
@@ -42,7 +47,6 @@ export default function App() {
         ready={ready}
         usageMode={usageMode}
         onToggleUsageMode={() => setUsageMode((v) => !v)}
-        onShowUsage={() => setShowUsage(true)}
         onAllOff={onAllOff}
       />
 
@@ -52,7 +56,10 @@ export default function App() {
         lightsOn={lightsOn}
         totalLights={lights.length}
         power={power}
+        costPerHourBdt={costPerHourBdt}
       />
+
+      <AlertsPanel alerts={snapshot?.alerts} officeHours={snapshot?.officeHours} />
 
       <div className="plan-hero">
         <FloorPlan
@@ -65,11 +72,14 @@ export default function App() {
         />
       </div>
 
+      {usageMode && <PowerMeter power={snapshot?.power} rooms={snapshot?.rooms} />}
+
       <RoomCards
         rooms={ROOMS}
         fans={fans}
         lights={lights}
         on={on}
+        lastChanged={lastChanged}
         onSetDevice={setDeviceSafe}
         usageMode={usageMode}
         onShowUsage={() => setShowUsage(true)}
