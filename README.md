@@ -1,4 +1,4 @@
-# Office Power Monitor — Lights, Fans, Discord
+# Techathon2026-Novus
 
 A real-time office monitoring system for the **Techathon Nationals 2026 Hackathon** (IUT Robotics Society) preliminary round problem: *"Lights, Fans, Discord: The Boss's Big Idea."*
 
@@ -264,4 +264,3 @@ office-power-monitor/
 | Friendly / LLM responses | `src/llm.js` |
 | Proactive alert posting (bonus) | `src/bot.js` alert polling |
 | Visual floor plan with glowing lights + spinning fans (bonus) | `public/app.js` |
-# Techathon2026-Novus
