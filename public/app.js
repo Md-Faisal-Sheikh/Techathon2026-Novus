@@ -1,4 +1,4 @@
-/* Office Power Monitor — dashboard client
+r/* Office Power Monitor — dashboard client
  * Connects to the shared backend over Socket.IO and re-renders on every update.
  * No polling, no manual refresh: the backend pushes state, we paint it.
  */
@@ -140,17 +140,20 @@
   // ------------------------------------------------------------- side panels
   function updatePower(power) {
     document.getElementById('totalW').textContent = Math.round(power.totalWatts);
-    document.getElementById('todayKwh').textContent = `${power.todayKwh.toFixed(3)} kWh today`;
+    document.getElementById('costNow').textContent = `৳${power.costPerHourBdt.toFixed(2)} / hour`;
+    document.getElementById('todayKwh').textContent =
+      `${power.todayKwh.toFixed(3)} kWh today · ৳${power.todayCostBdt.toFixed(2)}`;
 
     const wrap = document.getElementById('roomBars');
     const max = Math.max(300, power.totalWatts); // shared scale
     wrap.innerHTML = '';
     for (const key of ROOM_ORDER) {
       const w = power.perRoom[key] || 0;
+      const roomCost = (w / 1000) * power.tariffBdtPerKwh;
       const bar = document.createElement('div');
       bar.className = 'rbar';
       bar.innerHTML =
-        `<div class="rbar-top"><span class="name">${ROOM_BOXES[key].name}</span><span class="w">${Math.round(w)} W</span></div>` +
+        `<div class="rbar-top"><span class="name">${ROOM_BOXES[key].name}</span><span class="w">${Math.round(w)} W · ৳${roomCost.toFixed(2)}/hr</span></div>` +
         `<div class="rbar-track"><div class="rbar-fill" style="width:${(w / max) * 100}%"></div></div>`;
       wrap.appendChild(bar);
     }

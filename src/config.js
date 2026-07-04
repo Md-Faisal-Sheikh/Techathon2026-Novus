@@ -33,6 +33,12 @@ const config = {
   FAN_WATTS: num('FAN_WATTS', 60),
   LIGHT_WATTS: num('LIGHT_WATTS', 15),
 
+  // ---- Electricity tariff ----
+  // BDT per kWh. Used to convert the raw watt/kWh numbers into a taka figure —
+  // the boss cares about the bill, not the wattage. Default is a representative
+  // Bangladesh commercial-tariff rate; override to match your actual bill.
+  TARIFF_BDT_PER_KWH: num('TARIFF_BDT_PER_KWH', 10),
+
   // ---- Office hours (24h local clock) ----
   OFFICE_OPEN_HOUR: num('OFFICE_OPEN_HOUR', 9),  // 9 AM
   OFFICE_CLOSE_HOUR: num('OFFICE_CLOSE_HOUR', 17), // 5 PM

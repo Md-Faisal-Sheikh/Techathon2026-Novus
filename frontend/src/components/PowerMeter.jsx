@@ -5,6 +5,9 @@
 export default function PowerMeter({ power, rooms }) {
   const totalWatts = power?.totalWatts ?? 0;
   const todayKwh = power?.todayKwh ?? 0;
+  const costPerHourBdt = power?.costPerHourBdt ?? 0;
+  const todayCostBdt = power?.todayCostBdt ?? 0;
+  const tariff = power?.tariffBdtPerKwh ?? 0;
 
   return (
     <div className="power-meter">
@@ -15,17 +18,23 @@ export default function PowerMeter({ power, rooms }) {
           <small> W total</small>
         </div>
       </div>
-      <div className="pm-today">Today: {todayKwh} kWh</div>
+      <div className="pm-cost">৳{costPerHourBdt.toFixed(2)} / hour</div>
+      <div className="pm-today">
+        Today: {todayKwh} kWh · ৳{todayCostBdt.toFixed(2)}
+      </div>
 
       <div className="pm-rooms">
         {(rooms || []).map((r) => {
           const watts = r.power ?? 0;
           const pct = totalWatts > 0 ? Math.round((watts / totalWatts) * 100) : 0;
+          const roomCostBdt = (watts / 1000) * tariff;
           return (
             <div className="pm-room" key={r.key}>
               <div className="pm-room-head">
                 <span className="pm-room-name">{r.name}</span>
-                <span className="pm-room-watts">{watts} W</span>
+                <span className="pm-room-watts">
+                  {watts} W · ৳{roomCostBdt.toFixed(2)}/hr
+                </span>
               </div>
               <div
                 className="pm-bar-track"

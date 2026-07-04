@@ -58,6 +58,29 @@ Each of the 15 devices:
 }
 ```
 
+## Cost, not just watts
+
+The brief's audience is a boss who cares about the electricity bill, not raw
+wattage. `store.getPower()` converts watts/kWh into BDT using a configurable
+tariff (`TARIFF_BDT_PER_KWH`, default ৳10/kWh):
+
+```js
+{
+  totalWatts: 165,
+  perRoom: { drawing: 0, work1: 165, work2: 0 },
+  todayKwh: 0.412,
+  perRoomKwh: { drawing: 0.05, work1: 0.31, work2: 0.052 },
+  tariffBdtPerKwh: 10,
+  costPerHourBdt: 1.65,   // (totalWatts / 1000) * tariff — cost if this draw holds for 1h
+  todayCostBdt: 4.12      // todayKwh * tariff — running bill for the day so far
+}
+```
+
+`store.getRoom()` includes the same per-room `costPerHourBdt`. Every consumer —
+both dashboards and the Discord bot (`!usage`, `!room <name>`) — surfaces the
+taka figure as the headline number, with watts/kWh as supporting detail (e.g.
+"Burning ৳12/hour right now").
+
 ## The simulator
 
 `store.tick()` runs on an interval (default 3 s). Each tick it:
